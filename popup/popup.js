@@ -1,57 +1,20 @@
-var start = document.getElementById("start");
-var stop = document.getElementById("stop");
-var reset = document.getElementById("reset");
-
-var wm = document.getElementById("w_minutes");
-var ws = document.getElementById("w_seconds");
-
-var bm = document.getElementById("b_minutes");
-var bs = document.getElementById("b_seconds");
-
-var startTimer;
-
-start.addEventListener("click", function () {
-  if (startTimer === undefined) {
-    startTimer = setInterval(timer, 1000);
-  } else {
-    alert("Timer is already running");
-  }
+document.getElementById("start").addEventListener("click", function () {
+  chrome.runtime.sendMessage({ action: "startTimer" });
 });
 
-reset.addEventListener("click", function () {
-  wm.innerText = 25;
-  ws.innerText = "00";
-
-  bm.innerText = 5;
-  bs.innerText = "00";
-
-  stopInterval();
-  startTimer = undefined;
+document.getElementById("reset").addEventListener("click", function () {
+  chrome.runtime.sendMessage({ action: "resetTimer" });
 });
 
-stop.addEventListener("click", function () {
-  stopInterval();
-  startTimer = undefined;
+document.getElementById("stop").addEventListener("click", function () {
+  chrome.runtime.sendMessage({ action: "stopTimer" });
 });
 
-function timer() {
-  if (ws.innerText != 0) {
-    ws.innerText--;
-  } else if (wm.innerText != 0 && ws.innerText == 0) {
-    ws.innerText = 59;
-    wm.innerText--;
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "updateTimer") {
+    document.getElementById("w_minutes").innerText = message.wMinutes;
+    document.getElementById("w_seconds").innerText = message.wSeconds;
+    document.getElementById("b_minutes").innerText = message.bMinutes;
+    document.getElementById("b_seconds").innerText = message.bSeconds;
   }
-
-  if (wm.innerText == 0 && ws.innerText == 0) {
-    if (bs.innerText != 0) {
-      bs.innerText--;
-    } else if (bm.innerText != 0 && bs.innerText == 0) {
-      bs.innerText = 59;
-      bm.innerText--;
-    }
-  }
-}
-
-function stopInterval() {
-  clearInterval(startTimer);
-}
+});
