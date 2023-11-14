@@ -1,0 +1,48 @@
+#container {
+  height: 180px;
+  width: 400px;
+  background-color: #f5e4c3;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.timer {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#work-timer {
+  grid-area: 2 / 2 / 2 / 3;
+}
+
+#break-timer {
+  grid-area: 2 / 4 / 2 / 5;
+}
+
+.btn {
+  align-self: center;
+  justify-self: center;
+  border-radius: 80px;
+  width: 50px;
+  height: 30px;
+
+  font-size: 20px;
+}
+
+#start {
+  grid-area: 3 / 2 / 3 / 2;
+}
+
+#reset {
+  grid-area: 3 / 3 / 3 / 3;
+}
+
+#stop {
+  grid-area: 3 / 4 / 3 / 4;
+}
